@@ -57,13 +57,29 @@
             overflow: hidden;
         }
 
-        .hero iframe {
+        .hero .video-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            z-index: -1;
+        }
+
+        .hero .video-container iframe {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
+        }
+
+        .hero .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
             z-index: -1;
         }
 
@@ -107,8 +123,8 @@
             background-color: #4682b4;
         }
 
-        /* Play Sound Button */
-        .play-sound-button {
+        /* Play Sound and Play Video Buttons */
+        .play-sound-button, .play-video-button {
             background-color: rgba(255, 255, 255, 0.8);
             color: #1e90ff;
             padding: 8px 16px;
@@ -121,7 +137,7 @@
             transition: background-color 0.3s;
         }
 
-        .play-sound-button:hover {
+        .play-sound-button:hover, .play-video-button:hover {
             background-color: rgba(255, 255, 255, 1);
         }
 
@@ -343,7 +359,7 @@
                 padding: 12px 24px;
             }
 
-            .play-sound-button {
+            .play-sound-button, .play-video-button {
                 font-size: 0.9rem;
                 padding: 6px 12px;
             }
@@ -438,14 +454,18 @@
 <body>
     <!-- Header Section with Video Background -->
     <header class="hero">
-        <div style="position:absolute; top:0; left:0; width:100%; height:100%;">
-            <iframe id="hero-video" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" style="width:100%; height:100%;" title="Heated Eye Mask Background Video" loading="lazy"></iframe>
+        <!-- Video for Desktop -->
+        <div class="video-container desktop-video">
+            <iframe id="hero-video" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>
         </div>
+        <!-- Placeholder Image for Mobile -->
+        <div class="video-placeholder mobile-video" style="background-image: url('https://i.imgur.com/p1YKNUr.jpg');"></div>
         <div class="overlay"></div>
         <h1>Sue's Secret Heated Eye Mask – Soothe Dry Eyes with Moist Heat Therapy</h1>
         <p>Relieve Dry Eyes, Styes, MGD & More – Clinically Tested for Ultimate Comfort</p>
         <a href="#features" class="cta-button">Learn More</a>
-        <button class="play-sound-button" onclick="playVideoSound()">Play Sound</button>
+        <button class="play-video-button mobile-video" onclick="playVideo()">Play Video</button>
+        <button class="play-sound-button desktop-video" onclick="playVideoSound()">Play Sound</button>
     </header>
 
     <!-- Main Content -->
@@ -584,12 +604,31 @@
             });
         });
 
-        // Play Video Sound
+        // Play Video Sound (Desktop)
         function playVideoSound() {
             const videoIframe = document.getElementById('hero-video');
             const videoSrc = videoIframe.src.replace('&muted=1', '&muted=0');
-            videoIframe.src = videoSrc; // Update the src to unmute
-            document.querySelector('.play-sound-button').style.display = 'none'; // Hide the button after clicking
+            videoIframe.src = videoSrc;
+            document.querySelector('.play-sound-button').style.display = 'none';
+        }
+
+        // Play Video (Mobile)
+        function playVideo() {
+            const videoContainer = document.querySelector('.video-container');
+            const placeholder = document.querySelector('.video-placeholder');
+            const playButton = document.querySelector('.play-video-button');
+            
+            // Replace placeholder with video
+            videoContainer.innerHTML = '<iframe id="hero-video" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>';
+            placeholder.style.display = 'none';
+            playButton.style.display = 'none';
+
+            // Add Play Sound button for mobile after video loads
+            const soundButton = document.createElement('button');
+            soundButton.className = 'play-sound-button';
+            soundButton.textContent = 'Play Sound';
+            soundButton.onclick = playVideoSound;
+            document.querySelector('.hero').appendChild(soundButton);
         }
     </script>
 </body>
