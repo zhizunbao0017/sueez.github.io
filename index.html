@@ -4,8 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sue's Secret Heated Eye Mask - Soothe dry eyes with moist heat therapy. Relieve dry eyes, styes, MGD, and more with our clinically tested eye mask.">
+    <meta name="keywords" content="heated eye mask, dry eyes, moist heat therapy, styes, MGD, blepharitis, eye relief, Sue's Secret">
+    <meta name="author" content="Sue's Secret">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph for social media sharing -->
+    <meta property="og:title" content="Sue's Secret Heated Eye Mask - Soothe Dry Eyes with Moist Heat Therapy">
+    <meta property="og:description" content="Relieve dry eyes, styes, MGD, and more with our clinically tested heated eye mask. Discover the power of moist heat therapy!">
+    <meta property="og:image" content="https://i.imgur.com/p1YKNUr.jpg">
+    <meta property="og:url" content="https://sueez.com">
+    <meta property="og:type" content="website">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sue's Secret Heated Eye Mask - Soothe Dry Eyes with Moist Heat Therapy">
+    <meta name="twitter:description" content="Relieve dry eyes, styes, MGD, and more with our clinically tested heated eye mask. Discover the power of moist heat therapy!">
+    <meta name="twitter:image" content="https://i.imgur.com/p1YKNUr.jpg">
     <title>Sue's Secret Heated Eye Mask - Soothe Dry Eyes with Moist Heat Therapy</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztQ==" crossorigin="anonymous" referrerpolicy="no-referrer" async>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" async>
     <style>
         /* Reset default styles */
         * {
@@ -18,6 +33,15 @@
         body {
             line-height: 1.6;
             color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Lazy loading for images */
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+            loading: lazy;
         }
 
         /* Header Section (Hero Banner with Video) */
@@ -31,6 +55,16 @@
             text-align: center;
             padding: 20px;
             overflow: hidden;
+        }
+
+        .hero iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
         }
 
         .hero .overlay {
@@ -99,6 +133,11 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
         }
 
         .feature-item i {
@@ -131,6 +170,11 @@
 
         .therapy .diagram {
             max-width: 400px;
+        }
+
+        .therapy .diagram img {
+            width: 100%;
+            height: auto;
         }
 
         .therapy .text {
@@ -248,157 +292,264 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+                line-height: 1.8;
+            }
+
+            h1, h2, h3 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .hero {
+                height: 60vh;
+                padding: 10px;
+            }
+
             .hero h1 {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
+                margin-bottom: 15px;
             }
 
             .hero p {
                 font-size: 1rem;
+                margin-bottom: 15px;
+            }
+
+            .hero .cta-button {
+                font-size: 1rem;
+                padding: 12px 24px;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+
+            .feature-item {
+                padding: 15px;
+            }
+
+            .feature-item i {
+                font-size: 1.5rem;
+            }
+
+            .feature-item h3 {
+                font-size: 1rem;
+            }
+
+            .feature-item p {
+                font-size: 0.8rem;
             }
 
             .therapy {
                 flex-direction: column;
                 text-align: center;
             }
+
+            .therapy .diagram {
+                max-width: 100%;
+            }
+
+            .benefits-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 15px;
+            }
+
+            .benefit-item img {
+                width: 100%;
+                height: auto;
+            }
+
+            .benefit-item p {
+                font-size: 0.9rem;
+            }
+
+            .comparison table {
+                font-size: 0.9rem;
+            }
+
+            .comparison th, .comparison td {
+                padding: 10px;
+                word-wrap: break-word;
+            }
+
+            .footer-cta h2 {
+                font-size: 1.5rem;
+            }
+
+            .footer-cta p {
+                font-size: 1rem;
+            }
+
+            .footer-cta .cta-button {
+                font-size: 1rem;
+                padding: 12px 24px;
+            }
+        }
+
+        /* Desktop-specific adjustments */
+        @media (min-width: 769px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .benefits-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Hero Section with Video Background -->
-    <section class="hero">
+    <!-- Header Section with Video Background -->
+    <header class="hero">
         <div style="position:absolute; top:0; left:0; width:100%; height:100%;">
-            <iframe src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" style="width:100%; height:100%;" title="4月3日"></iframe>
+            <iframe src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" style="width:100%; height:100%;" title="Heated Eye Mask Background Video" loading="lazy"></iframe>
         </div>
         <div class="overlay"></div>
         <h1>Sue's Secret Heated Eye Mask – Soothe Dry Eyes with Moist Heat Therapy</h1>
         <p>Relieve Dry Eyes, Styes, MGD & More – Clinically Tested for Ultimate Comfort</p>
         <a href="#features" class="cta-button">Learn More</a>
-    </section>
+    </header>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <h2>Key Features of Our Heated Eye Mask</h2>
-        <div class="features-grid">
-            <div class="feature-item">
-                <i class="fas fa-eye-slash"></i>
-                <h3>360° Full Light Blocking</h3>
-                <p>Enhanced Darkness & Comfort</p>
+    <!-- Main Content -->
+    <main>
+        <!-- Features Section -->
+        <section class="features" id="features">
+            <h2>Key Features of Our Heated Eye Mask</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-eye-slash"></i>
+                    <h3>360° Full Light Blocking</h3>
+                    <p>Enhanced Darkness & Comfort</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-thermometer-half"></i>
+                    <h3>3 Heat Levels</h3>
+                    <p>Low (98.6°F-107.6°F), Medium (107.6°F-113°F), High (113°F-122°F)</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-shapes"></i>
+                    <h3>3D Shaping</h3>
+                    <p>Breathable Fabric – No Direct Contact</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-plug"></i>
+                    <h3>USB-Powered</h3>
+                    <p>Lightweight & Portable – Perfect for Travel</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-clock"></i>
+                    <h3>30-Minute Safety Timer</h3>
+                    <p>Protect Your Eyes – Auto Shut-Off</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-sliders-h"></i>
+                    <h3>Adjustable Fit</h3>
+                    <p>Fits All Faces – Secure & Comfortable</p>
+                </div>
             </div>
-            <div class="feature-item">
-                <i class="fas fa-thermometer-half"></i>
-                <h3>3 Heat Levels</h3>
-                <p>Low (98.6°F-107.6°F), Medium (107.6°F-113°F), High (113°F-122°F)</p>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-shapes"></i>
-                <h3>3D Shaping</h3>
-                <p>Breathable Fabric – No Direct Contact</p>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-plug"></i>
-                <h3>USB-Powered</h3>
-                <p>Lightweight & Portable – Perfect for Travel</p>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-clock"></i>
-                <h3>30-Minute Safety Timer</h3>
-                <p>Protect Your Eyes – Auto Shut-Off</p>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-sliders-h"></i>
-                <h3>Adjustable Fit</h3>
-                <p>Fits All Faces – Secure & Comfortable</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Moist Heat Therapy Section -->
-    <section class="therapy">
-        <div class="diagram">
-            <img src="https://i.imgur.com/8LCpTy7.png" alt="Skin Diagram">
-        </div>
-        <div class="text">
-            <h2>How Moist Heat Therapy Works</h2>
-            <p>Our heated eye mask uses warm compress technology to stimulate tear production, improve oil gland function, and promote circulation. This provides intense, lasting relief for dry eyes, styes, MGD, and blepharitis by delivering gentle, even heat without direct moisture.</p>
-        </div>
-    </section>
+        <!-- Moist Heat Therapy Section -->
+        <section class="therapy">
+            <div class="diagram">
+                <img src="https://i.imgur.com/8LCpTy7.png" alt="Skin Diagram for Moist Heat Therapy">
+            </div>
+            <div class="text">
+                <h2>How Moist Heat Therapy Works</h2>
+                <p>Our heated eye mask uses warm compress technology to stimulate tear production, improve oil gland function, and promote circulation. This provides intense, lasting relief for dry eyes, styes, MGD, and blepharitis by delivering gentle, even heat without direct moisture.</p>
+            </div>
+        </section>
 
-    <!-- Benefits Section -->
-    <section class="benefits">
-        <h2>Relief for Specific Conditions</h2>
-        <div class="benefits-grid">
-            <div class="benefit-item">
-                <img src="https://i.imgur.com/p1YKNUr.jpg" alt="Dry Eyes">
-                <p>Relieves Dry, Tired Eyes</p>
+        <!-- Benefits Section -->
+        <section class="benefits">
+            <h2>Relief for Specific Conditions</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <img src="https://i.imgur.com/p1YKNUr.jpg" alt="Dry Eyes Relief with Heated Eye Mask">
+                    <p>Relieves Dry, Tired Eyes</p>
+                </div>
+                <div class="benefit-item">
+                    <img src="https://i.imgur.com/EhyaaWT.jpg" alt="MGD Oil Gland Function Improvement">
+                    <p>Improves Oil Gland Function</p>
+                </div>
+                <div class="benefit-item">
+                    <img src="https://i.imgur.com/O02nP65.jpg" alt="Blepharitis Soothing for Puffy Eyes">
+                    <p>Soothes Puffy, Irritated Eyes</p>
+                </div>
+                <div class="benefit-item">
+                    <img src="https://i.imgur.com/TX477nU.jpg" alt="Styes Discomfort Reduction">
+                    <p>Reduces Stye Discomfort</p>
+                </div>
+                <div class="benefit-item">
+                    <img src="https://i.imgur.com/wNSyFqe.jpg" alt="Chalazion Removal Aid">
+                    <p>Aids in Chalazion Removal</p>
+                </div>
+                <div class="benefit-item">
+                    <img src="https://i.imgur.com/lSuZMtp.jpg" alt="Ocular Migraine Pain Relief">
+                    <p>Eases Ocular Migraine Pain</p>
+                </div>
             </div>
-            <div class="benefit-item">
-                <img src="https://i.imgur.com/EhyaaWT.jpg" alt="MGD">
-                <p>Improves Oil Gland Function</p>
-            </div>
-            <div class="benefit-item">
-                <img src="https://i.imgur.com/O02nP65.jpg" alt="Blepharitis">
-                <p>Soothes Puffy, Irritated Eyes</p>
-            </div>
-            <div class="benefit-item">
-                <img src="https://i.imgur.com/TX477nU.jpg" alt="Styes">
-                <p>Reduces Stye Discomfort</p>
-            </div>
-            <div class="benefit-item">
-                <img src="https://i.imgur.com/wNSyFqe.jpg" alt="Chalazion">
-                <p>Aids in Chalazion Removal</p>
-            </div>
-            <div class="benefit-item">
-                <img src="https://i.imgur.com/lSuZMtp.jpg" alt="Ocular Migraines">
-                <p>Eases Ocular Migraine Pain</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Comparison Section -->
-    <section class="comparison">
-        <h2>Heated Eye Mask Comparison</h2>
-        <table>
-            <tr>
-                <th>Feature</th>
-                <th>Traditional (Contact)</th>
-                <th>3D (Contoured)</th>
-            </tr>
-            <tr>
-                <td>Eye Pressure</td>
-                <td>Direct Contact</td>
-                <td>No Direct Contact – Gentler & Safer</td>
-            </tr>
-            <tr>
-                <td>Dry Eye Comfort</td>
-                <td>Direct Heat</td>
-                <td>Gentle, Even Heat – Soothing Relief</td>
-            </tr>
-            <tr>
-                <td>Corneal Safety</td>
-                <td>Potential Hot Spots</td>
-                <td>Even Heat Distribution – Minimized Risk</td>
-            </tr>
-            <tr>
-                <td>Eye Strain</td>
-                <td>Limited Impact</td>
-                <td>Promotes Relaxation – Less Muscle Strain</td>
-            </tr>
-        </table>
-        <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">
-            <strong>Doctor's Note:</strong> If you have any eye conditions (e.g., glaucoma, dry eye syndrome, recent surgery), please consult your ophthalmologist before using a heated eye mask.
-        </p>
-    </section>
+        <!-- Comparison Section -->
+        <section class="comparison">
+            <h2>Heated Eye Mask Comparison</h2>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Traditional (Contact)</th>
+                    <th>3D (Contoured)</th>
+                </tr>
+                <tr>
+                    <td>Eye Pressure</td>
+                    <td>Direct Contact</td>
+                    <td>No Direct Contact – Gentler & Safer</td>
+                </tr>
+                <tr>
+                    <td>Dry Eye Comfort</td>
+                    <td>Direct Heat</td>
+                    <td>Gentle, Even Heat – Soothing Relief</td>
+                </tr>
+                <tr>
+                    <td>Corneal Safety</td>
+                    <td>Potential Hot Spots</td>
+                    <td>Even Heat Distribution – Minimized Risk</td>
+                </tr>
+                <tr>
+                    <td>Eye Strain</td>
+                    <td>Limited Impact</td>
+                    <td>Promotes Relaxation – Less Muscle Strain</td>
+                </tr>
+            </table>
+            <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">
+                <strong>Doctor's Note:</strong> If you have any eye conditions (e.g., glaucoma, dry eye syndrome, recent surgery), please consult your ophthalmologist before using a heated eye mask.
+            </p>
+        </section>
+    </main>
 
     <!-- Footer CTA Section -->
-    <section class="footer-cta">
+    <footer class="footer-cta">
         <h2>Take a Break – Relax & Heal Dry Eyes with Sue’s Secret</h2>
         <p>Discover the Power of Moist Heat Therapy</p>
         <a href="mailto:support@sueez.com" class="cta-button">Contact Us</a>
-    </section>
+    </footer>
 
     <!-- JavaScript for Smooth Scrolling -->
-    <script>
+    <script defer>
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
