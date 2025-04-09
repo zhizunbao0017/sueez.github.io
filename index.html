@@ -107,29 +107,19 @@
             z-index: 2; /* Ensure buttons are above video */
         }
 
-        /* Play Sound, Play Video, and Play Icon Buttons */
-        .play-sound-button, .play-video-button, .play-icon-button, .cta-button {
+        /* Play Icon Button */
+        .play-icon-button {
             background-color: rgba(255, 255, 255, 0.8);
             color: #1e90ff;
-            padding: 8px 16px;
+            padding: 10px;
             border: none;
-            border-radius: 5px;
-            font-size: 1rem;
+            border-radius: 50%;
+            font-size: 2rem;
             cursor: pointer;
             transition: background-color 0.3s;
         }
 
-        .play-icon-button {
-            font-size: 2rem;
-            padding: 10px;
-            border-radius: 50%;
-        }
-
-        .cta-button {
-            text-decoration: none;
-        }
-
-        .play-sound-button:hover, .play-video-button:hover, .play-icon-button:hover, .cta-button:hover {
+        .play-icon-button:hover {
             background-color: rgba(255, 255, 255, 1);
         }
 
@@ -335,11 +325,6 @@
                 padding-top: 177.78%; /* 9:16 Aspect Ratio for mobile */
             }
 
-            .play-sound-button, .play-video-button, .play-icon-button, .cta-button {
-                font-size: 0.9rem;
-                padding: 6px 12px;
-            }
-
             .play-icon-button {
                 font-size: 1.5rem;
                 padding: 8px;
@@ -430,21 +415,20 @@
         <!-- Video for Desktop -->
         <div class="video-container desktop-video">
             <div class="video-placeholder desktop-video" style="background-image: url('https://i.imgur.com/40jYn7q.jpg');"></div>
-            <iframe id="hero-video" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>
+            <iframe id="hero-video" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>
         </div>
         <!-- Placeholder Image for Mobile -->
-        <div class="video-placeholder mobile-video" style="background-image: url('https://i.imgur.com/40jYn7q.jpg');"></div>
+        <div class="video-container mobile-video">
+            <div class="video-placeholder mobile-video" style="background-image: url('https://i.imgur.com/40jYn7q.jpg');"></div>
+        </div>
         <!-- Hidden SEO Text -->
         <div class="seo-text" style="display: none;">
             <h1>Sue's Secret Heated Eye Mask – Soothe Dry Eyes with Moist Heat Therapy</h1>
             <p>Relieve Dry Eyes, Styes, MGD & More – Clinically Tested for Ultimate Comfort</p>
         </div>
-        <div class="buttons-container">
-            <a href="#features" class="cta-button">Learn More</a>
-            <button class="play-video-button mobile-video" onclick="playVideo()">Load Video</button>
-            <button class="play-icon-button mobile-video" onclick="startVideoPlayback()" style="display: none;"><i class="fas fa-play"></i></button>
-            <button class="play-sound-button desktop-video" onclick="playVideoSound()">Play Sound</button>
-            <button class="play-sound-button mobile-video" onclick="playVideoSound()" style="display: none;">Play Sound</button>
+        <!-- Only keep the play button for mobile -->
+        <div class="buttons-container mobile-video">
+            <button class="play-icon-button" onclick="startVideoPlayback()"><i class="fas fa-play"></i></button>
         </div>
     </header>
 
@@ -586,75 +570,50 @@
             });
         });
 
-        // Play Video Sound (Desktop and Mobile)
-        function playVideoSound() {
-            const videoIframe = document.getElementById('hero-video');
-            const player = new Vimeo.Player(videoIframe);
-            player.getVolume().then(volume => {
-                if (volume === 0) {
-                    player.setVolume(1);
-                } else {
-                    player.setVolume(0);
-                }
-            }).catch(error => {
-                console.error('Error adjusting volume:', error);
-            });
-            // Hide all buttons
-            document.querySelector('.buttons-container').style.display = 'none';
-        }
-
-        // Load Video (Mobile)
-        function playVideo() {
-            const videoContainer = document.querySelector('.video-container');
+        // Start Video Playback (Mobile)
+        function startVideoPlayback() {
+            const videoContainer = document.querySelector('.video-container.mobile-video');
             const placeholder = document.querySelector('.video-placeholder.mobile-video');
-            const playButton = document.querySelector('.play-video-button');
             
             // Add loading spinner
             videoContainer.innerHTML = '<div class="loading-spinner">Loading...</div>';
             placeholder.style.display = 'none';
-            playButton.style.display = 'none';
 
             // Load video
-            videoContainer.innerHTML = '<iframe id="hero-video" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>';
+            videoContainer.innerHTML = '<iframe id="hero-video" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&loop=1&muted=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>';
             
-            // Wait for video to load
+            // Wait for video to load and play
             const player = new Vimeo.Player(document.getElementById('hero-video'));
             player.on('loaded', () => {
-                document.querySelector('.play-icon-button').style.display = 'block';
-                document.querySelector('.play-sound-button.mobile-video').style.display = 'block';
+                player.play().then(() => {
+                    // Hide all buttons
+                    document.querySelector('.buttons-container').style.display = 'none';
+                }).catch(error => {
+                    console.error('Error playing video:', error);
+                    videoContainer.innerHTML = '<div class="error-message">Failed to play video. Please try again.</div>';
+                    // Hide buttons even if playback fails
+                    document.querySelector('.buttons-container').style.display = 'none';
+                });
             });
             player.on('error', () => {
                 videoContainer.innerHTML = '<div class="error-message">Failed to load video. Please refresh the page.</div>';
-            });
-        }
-
-        // Start Video Playback (Mobile)
-        function startVideoPlayback() {
-            const videoIframe = document.getElementById('hero-video');
-            const player = new Vimeo.Player(videoIframe);
-            player.play().then(() => {
-                // Hide all buttons
+                // Hide buttons even if loading fails
                 document.querySelector('.buttons-container').style.display = 'none';
-            }).catch(error => {
-                console.error('Error playing video:', error);
-                document.querySelector('.video-container').innerHTML = '<div class="error-message">Failed to play video. Please try again.</div>';
             });
         }
 
         // Hide desktop placeholder when video loads
         document.addEventListener('DOMContentLoaded', () => {
             const videoIframe = document.getElementById('hero-video');
-            const player = new Vimeo.Player(videoIframe);
-            player.on('loaded', () => {
-                document.querySelector('.video-placeholder.desktop-video').style.display = 'none';
-            });
-            player.on('error', () => {
-                document.querySelector('.video-container').innerHTML = '<div class="error-message">Failed to load video. Please refresh the page.</div>';
-            });
-            // Ensure buttons are hidden when video starts playing (desktop)
-            player.on('play', () => {
-                document.querySelector('.buttons-container').style.display = 'none';
-            });
+            if (videoIframe) {
+                const player = new Vimeo.Player(videoIframe);
+                player.on('loaded', () => {
+                    document.querySelector('.video-placeholder.desktop-video').style.display = 'none';
+                });
+                player.on('error', () => {
+                    document.querySelector('.video-container.desktop-video').innerHTML = '<div class="error-message">Failed to load video. Please refresh the page.</div>';
+                });
+            }
         });
     </script>
 </body>
