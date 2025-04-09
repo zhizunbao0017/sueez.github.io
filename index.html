@@ -86,14 +86,17 @@
         /* Buttons Container */
         .hero .buttons-container {
             position: absolute;
-            bottom: 20px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             display: flex;
+            flex-direction: column;
             gap: 10px;
             z-index: 1;
         }
 
-        /* Play Sound and Play Video Buttons */
-        .play-sound-button, .play-video-button, .cta-button {
+        /* Play Sound, Play Video, and Play Icon Buttons */
+        .play-sound-button, .play-video-button, .play-icon-button, .cta-button {
             background-color: rgba(255, 255, 255, 0.8);
             color: #1e90ff;
             padding: 8px 16px;
@@ -104,11 +107,17 @@
             transition: background-color 0.3s;
         }
 
+        .play-icon-button {
+            font-size: 2rem;
+            padding: 10px;
+            border-radius: 50%;
+        }
+
         .cta-button {
             text-decoration: none;
         }
 
-        .play-sound-button:hover, .play-video-button:hover, .cta-button:hover {
+        .play-sound-button:hover, .play-video-button:hover, .play-icon-button:hover, .cta-button:hover {
             background-color: rgba(255, 255, 255, 1);
         }
 
@@ -315,9 +324,14 @@
                 padding: 10px;
             }
 
-            .play-sound-button, .play-video-button, .cta-button {
+            .play-sound-button, .play-video-button, .play-icon-button, .cta-button {
                 font-size: 0.9rem;
                 padding: 6px 12px;
+            }
+
+            .play-icon-button {
+                font-size: 1.5rem;
+                padding: 8px;
             }
 
             .features-grid {
@@ -410,8 +424,10 @@
         <div class="video-placeholder mobile-video" style="background-image: url('https://i.imgur.com/NEW_IMAGE_LINK.jpg');"></div>
         <div class="buttons-container">
             <a href="#features" class="cta-button">Learn More</a>
-            <button class="play-video-button mobile-video" onclick="playVideo()">Play Video</button>
+            <button class="play-video-button mobile-video" onclick="playVideo()">Load Video</button>
+            <button class="play-icon-button mobile-video" onclick="startVideoPlayback()" style="display: none;"><i class="fas fa-play"></i></button>
             <button class="play-sound-button desktop-video" onclick="playVideoSound()">Play Sound</button>
+            <button class="play-sound-button mobile-video" onclick="playVideoSound()" style="display: none;">Play Sound</button>
         </div>
     </header>
 
@@ -539,6 +555,8 @@
         <a href="mailto:support@sueez.com" class="cta-button">Contact Us</a>
     </footer>
 
+    <!-- Vimeo Player API -->
+    <script src="https://player.vimeo.com/api/player.js" defer></script>
     <!-- JavaScript for Smooth Scrolling and Video Control -->
     <script defer>
         // Smooth Scrolling
@@ -551,32 +569,43 @@
             });
         });
 
-        // Play Video Sound (Desktop)
+        // Play Video Sound (Desktop and Mobile)
         function playVideoSound() {
             const videoIframe = document.getElementById('hero-video');
-            const videoSrc = videoIframe.src.replace('&muted=1', '&muted=0');
-            videoIframe.src = videoSrc;
+            const player = new Vimeo.Player(videoIframe);
+            player.getVolume().then(volume => {
+                if (volume === 0) {
+                    player.setVolume(1);
+                } else {
+                    player.setVolume(0);
+                }
+            });
             document.querySelector('.play-sound-button').style.display = 'none';
         }
 
-        // Play Video (Mobile)
+        // Load Video (Mobile)
         function playVideo() {
             const videoContainer = document.querySelector('.video-container');
             const placeholder = document.querySelector('.video-placeholder');
             const playButton = document.querySelector('.play-video-button');
             const buttonsContainer = document.querySelector('.buttons-container');
             
-            // Replace placeholder with video
-            videoContainer.innerHTML = '<iframe id="hero-video" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>';
+            // Replace placeholder with video (without autoplay)
+            videoContainer.innerHTML = '<iframe id="hero-video" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>';
             placeholder.style.display = 'none';
             playButton.style.display = 'none';
 
-            // Add Play Sound button for mobile after video loads
-            const soundButton = document.createElement('button');
-            soundButton.className = 'play-sound-button';
-            soundButton.textContent = 'Play Sound';
-            soundButton.onclick = playVideoSound;
-            buttonsContainer.appendChild(soundButton);
+            // Show Play and Sound buttons
+            document.querySelector('.play-icon-button').style.display = 'block';
+            document.querySelector('.play-sound-button.mobile-video').style.display = 'block';
+        }
+
+        // Start Video Playback (Mobile)
+        function startVideoPlayback() {
+            const videoIframe = document.getElementById('hero-video');
+            const player = new Vimeo.Player(videoIframe);
+            player.play();
+            document.querySelector('.play-icon-button').style.display = 'none';
         }
     </script>
 </body>
