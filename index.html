@@ -47,13 +47,9 @@
         /* Header Section (Hero Banner with Video) */
         .hero {
             position: relative;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
             overflow: hidden;
         }
 
@@ -67,10 +63,12 @@
         }
 
         .hero .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            aspect-ratio: 16 / 9; /* Maintain video aspect ratio */
         }
 
         .hero .video-placeholder {
@@ -79,7 +77,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-size: cover;
+            background-size: contain;
+            background-repeat: no-repeat;
             background-position: center;
             z-index: 0;
         }
@@ -105,7 +104,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            z-index: 1;
+            z-index: 2; /* Ensure buttons are above video */
         }
 
         /* Play Sound, Play Video, and Play Icon Buttons */
@@ -333,8 +332,7 @@
             }
 
             .hero {
-                height: 60vh;
-                padding: 10px;
+                padding-top: 177.78%; /* 9:16 Aspect Ratio for mobile */
             }
 
             .play-sound-button, .play-video-button, .play-icon-button, .cta-button {
@@ -652,6 +650,10 @@
             });
             player.on('error', () => {
                 document.querySelector('.video-container').innerHTML = '<div class="error-message">Failed to load video. Please refresh the page.</div>';
+            });
+            // Ensure buttons are hidden when video starts playing (desktop)
+            player.on('play', () => {
+                document.querySelector('.buttons-container').style.display = 'none';
             });
         });
     </script>
