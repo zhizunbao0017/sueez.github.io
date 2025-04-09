@@ -84,12 +84,16 @@
             z-index: 0;
         }
 
-        /* Loading Spinner */
-        .loading-spinner {
+        /* Loading Spinner and Error Message */
+        .loading-spinner, .error-message {
             color: #ffffff;
             font-size: 1rem;
             text-align: center;
             padding-top: 50%;
+        }
+
+        .error-message {
+            color: #ff4444;
         }
 
         /* Buttons Container */
@@ -594,6 +598,8 @@
                 } else {
                     player.setVolume(0);
                 }
+            }).catch(error => {
+                console.error('Error adjusting volume:', error);
             });
             // Hide all buttons
             document.querySelector('.buttons-container').style.display = 'none';
@@ -611,20 +617,30 @@
             playButton.style.display = 'none';
 
             // Load video
-            setTimeout(() => {
-                videoContainer.innerHTML = '<iframe id="hero-video" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>';
+            videoContainer.innerHTML = '<iframe id="hero-video" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>';
+            
+            // Wait for video to load
+            const player = new Vimeo.Player(document.getElementById('hero-video'));
+            player.on('loaded', () => {
                 document.querySelector('.play-icon-button').style.display = 'block';
                 document.querySelector('.play-sound-button.mobile-video').style.display = 'block';
-            }, 500); // Simulate loading delay
+            });
+            player.on('error', () => {
+                videoContainer.innerHTML = '<div class="error-message">Failed to load video. Please refresh the page.</div>';
+            });
         }
 
         // Start Video Playback (Mobile)
         function startVideoPlayback() {
             const videoIframe = document.getElementById('hero-video');
             const player = new Vimeo.Player(videoIframe);
-            player.play();
-            // Hide all buttons
-            document.querySelector('.buttons-container').style.display = 'none';
+            player.play().then(() => {
+                // Hide all buttons
+                document.querySelector('.buttons-container').style.display = 'none';
+            }).catch(error => {
+                console.error('Error playing video:', error);
+                document.querySelector('.video-container').innerHTML = '<div class="error-message">Failed to play video. Please try again.</div>';
+            });
         }
 
         // Hide desktop placeholder when video loads
@@ -633,6 +649,9 @@
             const player = new Vimeo.Player(videoIframe);
             player.on('loaded', () => {
                 document.querySelector('.video-placeholder.desktop-video').style.display = 'none';
+            });
+            player.on('error', () => {
+                document.querySelector('.video-container').innerHTML = '<div class="error-message">Failed to load video. Please refresh the page.</div>';
             });
         });
     </script>
