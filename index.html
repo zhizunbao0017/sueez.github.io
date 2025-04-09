@@ -415,7 +415,7 @@
         <!-- Video for Desktop -->
         <div class="video-container desktop-video">
             <div class="video-placeholder desktop-video" style="background-image: url('https://i.imgur.com/40jYn7q.jpg');"></div>
-            <iframe id="hero-video" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>
+            <iframe id="hero-video" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=0&title=0&byline=0&portrait=0&transparent=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>
         </div>
         <!-- Placeholder Image for Mobile -->
         <div class="video-container mobile-video">
@@ -579,23 +579,24 @@
             videoContainer.innerHTML = '<div class="loading-spinner">Loading...</div>';
             placeholder.style.display = 'none';
 
-            // Load video
-            videoContainer.innerHTML = '<iframe id="hero-video" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&loop=1&muted=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>';
+            // Load video with autoplay disabled
+            videoContainer.innerHTML = '<iframe id="hero-video-mobile" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=0&loop=1&muted=0&title=0&byline=0&portrait=0&transparent=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>';
             
             // Wait for video to load and play
-            const player = new Vimeo.Player(document.getElementById('hero-video'));
+            const player = new Vimeo.Player(document.getElementById('hero-video-mobile'));
             player.on('loaded', () => {
                 player.play().then(() => {
                     // Hide all buttons
                     document.querySelector('.buttons-container').style.display = 'none';
                 }).catch(error => {
-                    console.error('Error playing video:', error);
+                    console.error('Error playing video on mobile:', error);
                     videoContainer.innerHTML = '<div class="error-message">Failed to play video. Please try again.</div>';
                     // Hide buttons even if playback fails
                     document.querySelector('.buttons-container').style.display = 'none';
                 });
             });
-            player.on('error', () => {
+            player.on('error', (error) => {
+                console.error('Error loading video on mobile:', error);
                 videoContainer.innerHTML = '<div class="error-message">Failed to load video. Please refresh the page.</div>';
                 // Hide buttons even if loading fails
                 document.querySelector('.buttons-container').style.display = 'none';
@@ -610,7 +611,8 @@
                 player.on('loaded', () => {
                     document.querySelector('.video-placeholder.desktop-video').style.display = 'none';
                 });
-                player.on('error', () => {
+                player.on('error', (error) => {
+                    console.error('Error loading video on desktop:', error);
                     document.querySelector('.video-container.desktop-video').innerHTML = '<div class="error-message">Failed to load video. Please refresh the page.</div>';
                 });
             }
