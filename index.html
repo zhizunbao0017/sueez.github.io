@@ -63,7 +63,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: 0; /* Ensure video is on top */
         }
 
         .hero .video-container iframe {
@@ -80,51 +80,20 @@
             height: 100%;
             background-size: cover;
             background-position: center;
-            z-index: -1;
-        }
-
-        .hero .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
             z-index: 0;
         }
 
-        .hero h1 {
-            font-size: 2.5rem;
-            color: #ffffff;
-            text-shadow: 2px 2px 4px #1e90ff;
-            margin-bottom: 10px;
+        /* Buttons Container */
+        .hero .buttons-container {
+            position: absolute;
+            bottom: 20px;
+            display: flex;
+            gap: 10px;
             z-index: 1;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: #ffffff;
-            margin-bottom: 20px;
-            z-index: 1;
-        }
-
-        .hero .cta-button {
-            background-color: #1e90ff;
-            color: #ffffff;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-            z-index: 1;
-        }
-
-        .hero .cta-button:hover {
-            background-color: #4682b4;
         }
 
         /* Play Sound and Play Video Buttons */
-        .play-sound-button, .play-video-button {
+        .play-sound-button, .play-video-button, .cta-button {
             background-color: rgba(255, 255, 255, 0.8);
             color: #1e90ff;
             padding: 8px 16px;
@@ -132,12 +101,14 @@
             border-radius: 5px;
             font-size: 1rem;
             cursor: pointer;
-            z-index: 1;
-            margin-top: 10px;
             transition: background-color 0.3s;
         }
 
-        .play-sound-button:hover, .play-video-button:hover {
+        .cta-button {
+            text-decoration: none;
+        }
+
+        .play-sound-button:hover, .play-video-button:hover, .cta-button:hover {
             background-color: rgba(255, 255, 255, 1);
         }
 
@@ -344,22 +315,7 @@
                 padding: 10px;
             }
 
-            .hero h1 {
-                font-size: 1.5rem;
-                margin-bottom: 15px;
-            }
-
-            .hero p {
-                font-size: 1rem;
-                margin-bottom: 15px;
-            }
-
-            .hero .cta-button {
-                font-size: 1rem;
-                padding: 12px 24px;
-            }
-
-            .play-sound-button, .play-video-button {
+            .play-sound-button, .play-video-button, .cta-button {
                 font-size: 0.9rem;
                 padding: 6px 12px;
             }
@@ -433,14 +389,6 @@
 
         /* Desktop-specific adjustments */
         @media (min-width: 769px) {
-            .hero h1 {
-                font-size: 3rem;
-            }
-
-            .hero p {
-                font-size: 1.5rem;
-            }
-
             .features-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
@@ -460,12 +408,11 @@
         </div>
         <!-- Placeholder Image for Mobile -->
         <div class="video-placeholder mobile-video" style="background-image: url('https://i.imgur.com/p1YKNUr.jpg');"></div>
-        <div class="overlay"></div>
-        <h1>Sue's Secret Heated Eye Mask – Soothe Dry Eyes with Moist Heat Therapy</h1>
-        <p>Relieve Dry Eyes, Styes, MGD & More – Clinically Tested for Ultimate Comfort</p>
-        <a href="#features" class="cta-button">Learn More</a>
-        <button class="play-video-button mobile-video" onclick="playVideo()">Play Video</button>
-        <button class="play-sound-button desktop-video" onclick="playVideoSound()">Play Sound</button>
+        <div class="buttons-container">
+            <a href="#features" class="cta-button">Learn More</a>
+            <button class="play-video-button mobile-video" onclick="playVideo()">Play Video</button>
+            <button class="play-sound-button desktop-video" onclick="playVideoSound()">Play Sound</button>
+        </div>
     </header>
 
     <!-- Main Content -->
@@ -617,6 +564,7 @@
             const videoContainer = document.querySelector('.video-container');
             const placeholder = document.querySelector('.video-placeholder');
             const playButton = document.querySelector('.play-video-button');
+            const buttonsContainer = document.querySelector('.buttons-container');
             
             // Replace placeholder with video
             videoContainer.innerHTML = '<iframe id="hero-video" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>';
@@ -628,7 +576,7 @@
             soundButton.className = 'play-sound-button';
             soundButton.textContent = 'Play Sound';
             soundButton.onclick = playVideoSound;
-            document.querySelector('.hero').appendChild(soundButton);
+            buttonsContainer.appendChild(soundButton);
         }
     </script>
 </body>
