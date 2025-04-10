@@ -69,14 +69,12 @@
             z-index: 0;
         }
 
-        .hero .video-container video {
+        .hero .video-container iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Ensure video is fully visible */
-            object-position: center;
         }
 
         .hero .video-placeholder {
@@ -97,6 +95,41 @@
             font-size: 1rem;
             text-align: center;
             padding-top: 50%;
+        }
+
+        /* Play Button for Desktop */
+        .hero .buttons-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 2; /* Ensure buttons are above video */
+        }
+
+        .play-icon-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #1e90ff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .play-icon-button i {
+            margin-right: 5px;
+            font-size: 1.2rem;
+        }
+
+        .play-icon-button:hover {
+            background-color: rgba(255, 255, 255, 1);
         }
 
         /* Features Section */
@@ -377,15 +410,17 @@
     </style>
 </head>
 <body>
-    <!-- Header Section with Video Background (Desktop) -->
+    <!-- Header Section with Vimeo Video (Desktop) -->
     <header class="hero desktop">
-        <!-- Video for Desktop -->
+        <!-- Vimeo Video for Desktop -->
         <div class="video-container desktop-video">
             <div class="video-placeholder desktop-video" style="background-image: url('https://i.imgur.com/40jYn7q.jpg');"></div>
-            <video id="hero-video" loop playsinline preload="auto" controls>
-                <source src="https://raw.githubusercontent.com/zhizunbao0017/sueez.github.io/main/广告视频素材.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            <!-- Replace the src with your Vimeo video embed URL -->
+            <iframe id="vimeo-video" src="https://player.vimeo.com/video/123456789?controls=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="display: none;"></iframe>
+        </div>
+        <!-- Play button for desktop -->
+        <div class="buttons-container desktop-video">
+            <button class="play-icon-button" onclick="startVideoPlaybackDesktop()"><i class="fas fa-play"></i> Play Video</button>
         </div>
     </header>
 
@@ -545,26 +580,15 @@
             document.querySelector('.hero.mobile').style.display = isMobile ? 'block' : 'none';
         });
 
-        // Desktop video handling
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('hero-video');
-            if (video) {
-                video.addEventListener('loadeddata', () => {
-                    console.log('Video loaded on desktop');
-                    document.querySelector('.video-placeholder.desktop-video').style.display = 'none';
-                    video.play().then(() => {
-                        console.log('Video is playing on desktop with sound');
-                    }).catch(error => {
-                        console.error('Error playing video on desktop:', error.message);
-                        document.querySelector('.video-container.desktop-video').innerHTML = '<div class="error-message">Failed to play video: ' + error.message + '. Please refresh the page.</div>';
-                    });
-                });
-                video.addEventListener('error', (error) => {
-                    console.error('Error loading video on desktop:', error.message);
-                    document.querySelector('.video-container.desktop-video').innerHTML = '<div class="error-message">Failed to load video: ' + error.message + '. Please refresh the page.</div>';
-                });
-            }
-        });
+        // Start Vimeo Video Playback (Desktop)
+        function startVideoPlaybackDesktop() {
+            const placeholder = document.querySelector('.video-placeholder.desktop-video');
+            const iframe = document.getElementById('vimeo-video');
+            
+            placeholder.style.display = 'none';
+            iframe.style.display = 'block';
+            document.querySelector('.buttons-container.desktop-video').style.display = 'none';
+        }
     </script>
 </body>
 </html>
