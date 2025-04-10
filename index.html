@@ -99,41 +99,6 @@
             padding-top: 50%;
         }
 
-        /* Play Button for Desktop */
-        .hero .buttons-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 2; /* Ensure buttons are above video */
-        }
-
-        .play-icon-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(255, 255, 255, 0.8);
-            color: #1e90ff;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .play-icon-button i {
-            margin-right: 5px;
-            font-size: 1.2rem;
-        }
-
-        .play-icon-button:hover {
-            background-color: rgba(255, 255, 255, 1);
-        }
-
         /* Features Section */
         .features {
             padding: 50px 20px;
@@ -422,10 +387,6 @@
                 Your browser does not support the video tag.
             </video>
         </div>
-        <!-- Play button for desktop -->
-        <div class="buttons-container desktop-video">
-            <button class="play-icon-button" onclick="startVideoPlaybackDesktop()"><i class="fas fa-play"></i> Play Video</button>
-        </div>
     </header>
 
     <!-- Header Section with Static Image (Mobile) -->
@@ -584,32 +545,23 @@
             document.querySelector('.hero.mobile').style.display = isMobile ? 'block' : 'none';
         });
 
-        // Start Video Playback (Desktop)
-        function startVideoPlaybackDesktop() {
-            const videoContainer = document.querySelector('.video-container.desktop-video');
-            const placeholder = document.querySelector('.video-placeholder.desktop-video');
-            
-            placeholder.style.display = 'none';
-            const video = document.getElementById('hero-video');
-            video.play().then(() => {
-                console.log('Video is playing on desktop with sound');
-                // Hide play button
-                document.querySelector('.buttons-container.desktop-video').style.display = 'none';
-            }).catch(error => {
-                console.error('Error playing video on desktop:', error.message);
-                videoContainer.innerHTML = '<div class="error-message">Failed to play video: ' + error.message + '. Please refresh the page.</div>';
-                document.querySelector('.buttons-container.desktop-video').style.display = 'none';
-            });
-        }
-
-        // Desktop video error handling
+        // Desktop video handling
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('hero-video');
             if (video) {
+                video.addEventListener('loadeddata', () => {
+                    console.log('Video loaded on desktop');
+                    document.querySelector('.video-placeholder.desktop-video').style.display = 'none';
+                    video.play().then(() => {
+                        console.log('Video is playing on desktop with sound');
+                    }).catch(error => {
+                        console.error('Error playing video on desktop:', error.message);
+                        document.querySelector('.video-container.desktop-video').innerHTML = '<div class="error-message">Failed to play video: ' + error.message + '. Please refresh the page.</div>';
+                    });
+                });
                 video.addEventListener('error', (error) => {
                     console.error('Error loading video on desktop:', error.message);
                     document.querySelector('.video-container.desktop-video').innerHTML = '<div class="error-message">Failed to load video: ' + error.message + '. Please refresh the page.</div>';
-                    document.querySelector('.buttons-container.desktop-video').style.display = 'none';
                 });
             }
         });
