@@ -57,7 +57,7 @@
         }
 
         .hero.mobile {
-            padding-top: 56.25%; /* 16:9 Aspect Ratio for mobile to match image */
+            padding-top: 177.78%; /* 9:16 Aspect Ratio for mobile */
         }
 
         .hero .video-container {
@@ -382,7 +382,7 @@
         <!-- Video for Desktop -->
         <div class="video-container desktop-video">
             <div class="video-placeholder desktop-video" style="background-image: url('https://i.imgur.com/40jYn7q.jpg');"></div>
-            <video id="hero-video" loop playsinline preload="auto" controls>
+            <video id="hero-video" loop playsinline preload="auto">
                 <source src="https://raw.githubusercontent.com/zhizunbao0017/sueez.github.io/main/广告视频素材.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -551,11 +551,13 @@
             if (video) {
                 video.addEventListener('loadeddata', () => {
                     console.log('Video loaded on desktop');
+                    // Since autoplay with sound is blocked, we can prompt user to play
                     document.querySelector('.video-placeholder.desktop-video').style.display = 'none';
                     video.play().then(() => {
                         console.log('Video is playing on desktop with sound');
                     }).catch(error => {
                         console.error('Error playing video on desktop:', error.message);
+                        // Display error but keep placeholder hidden
                         document.querySelector('.video-container.desktop-video').innerHTML = '<div class="error-message">Failed to play video: ' + error.message + '. Please refresh the page.</div>';
                     });
                 });
