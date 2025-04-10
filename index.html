@@ -591,31 +591,35 @@
             videoContainer.innerHTML = '<div class="loading-spinner">Loading...</div>';
             placeholder.style.display = 'none';
 
-            // Load video with controls hidden
-            videoContainer.innerHTML = '<iframe id="hero-video-mobile" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=0&loop=1&muted=0&title=0&byline=0&portrait=0&transparent=0&controls=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Heated Eye Mask Background Video" loading="lazy"></iframe>';
+            // Load video with optimized parameters for mobile
+            videoContainer.innerHTML = '<iframe id="hero-video-mobile" src="https://player.vimeo.com/video/1073849832?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=0&loop=1&muted=0&title=0&byline=0&portrait=0&transparent=0&controls=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" title="Heated Eye Mask Background Video" loading="lazy"></iframe>';
             
             // Wait for video to load and play
             const player = new Vimeo.Player(document.getElementById('hero-video-mobile'));
             player.on('loaded', () => {
+                console.log('Video loaded on mobile');
                 player.play().then(() => {
+                    console.log('Video is playing on mobile');
                     // Hide all buttons
                     document.querySelector('.buttons-container').style.display = 'none';
                 }).catch(error => {
-                    console.error('Error playing video on mobile:', error);
-                    videoContainer.innerHTML = '<div class="error-message">Failed to play video. Please try again.</div>';
+                    console.error('Error playing video on mobile:', error.name, error.message);
+                    videoContainer.innerHTML = '<div class="error-message">Failed to play video: ' + error.message + '. Please try again.</div>';
                     // Hide buttons even if playback fails
                     document.querySelector('.buttons-container').style.display = 'none';
                 });
             });
             player.on('error', (error) => {
-                console.error('Error loading video on mobile:', error);
-                videoContainer.innerHTML = '<div class="error-message">Failed to load video. Please refresh the page.</div>';
+                console.error('Error loading video on mobile:', error.name, error.message);
+                videoContainer.innerHTML = '<div class="error-message">Failed to load video: ' + error.message + '. Please refresh the page.</div>';
                 // Hide buttons even if loading fails
                 document.querySelector('.buttons-container').style.display = 'none';
             });
-            // Confirm video is playing
-            player.on('play', () => {
-                console.log('Video is playing on mobile');
+            player.on('bufferstart', () => {
+                console.log('Video buffering started on mobile');
+            });
+            player.on('bufferend', () => {
+                console.log('Video buffering ended on mobile');
             });
         }
 
@@ -625,11 +629,12 @@
             if (videoIframe) {
                 const player = new Vimeo.Player(videoIframe);
                 player.on('loaded', () => {
+                    console.log('Video loaded on desktop');
                     document.querySelector('.video-placeholder.desktop-video').style.display = 'none';
                 });
                 player.on('error', (error) => {
-                    console.error('Error loading video on desktop:', error);
-                    document.querySelector('.video-container.desktop-video').innerHTML = '<div class="error-message">Failed to load video. Please refresh the page.</div>';
+                    console.error('Error loading video on desktop:', error.name, error.message);
+                    document.querySelector('.video-container.desktop-video').innerHTML = '<div class="error-message">Failed to load video: ' + error.message + '. Please refresh the page.</div>';
                 });
             }
         });
