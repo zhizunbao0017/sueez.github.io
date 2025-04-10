@@ -78,12 +78,12 @@
 
         .hero .video-placeholder {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             background: url('https://i.imgur.com/40jYn7q.jpg') center center/cover no-repeat;
-            transform: translate(-50%, -50%);
+            background-position: center;
             z-index: 0;
         }
 
@@ -96,7 +96,7 @@
             color: #fff;
             z-index: 2;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.4); /* 遮罩提升文字可读性 */
+            background: rgba(0, 0, 0, 0.4);
             border-radius: 10px;
         }
 
@@ -195,7 +195,7 @@
             text-decoration: none;
             transition: background-color 0.3s;
             display: inline-block;
-            margin-right: 10px;
+            margin-bottom: 15px; /* 添加与折扣码的间距 */
         }
 
         .buy-now .buy-button:hover {
@@ -205,8 +205,7 @@
         .buy-now .discount-code {
             font-size: 1rem;
             color: #333;
-            display: inline-block;
-            vertical-align: middle;
+            display: block;
         }
 
         .buy-now .discount-code span {
@@ -349,7 +348,7 @@
             text-decoration: none;
             transition: background-color 0.3s;
             display: inline-block;
-            margin-right: 10px;
+            margin-bottom: 15px; /* 添加与折扣码的间距 */
         }
 
         .footer-cta .buy-button:hover {
@@ -358,8 +357,7 @@
 
         .footer-cta .discount-code {
             font-size: 1rem;
-            display: inline-block;
-            vertical-align: middle;
+            display: block;
         }
 
         .footer-cta .discount-code span {
@@ -394,15 +392,7 @@
                 display: block;
             }
             .hero-content {
-                padding: 15px;
-            }
-            .hero-content h1 {
-                font-size: 1.8rem;
-                margin-bottom: 0.8rem;
-            }
-            .hero-content p {
-                font-size: 1rem;
-                margin-bottom: 1rem;
+                display: none; /* 手机端移除文字 */
             }
             .features-grid {
                 grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -455,14 +445,10 @@
         </div>
     </header>
 
-    <!-- Hero Section (Mobile with Image) -->
+    <!-- Hero Section (Mobile with Image Only) -->
     <header class="hero mobile">
         <div class="video-container">
             <div class="video-placeholder"></div>
-        </div>
-        <div class="hero-content">
-            <h1>Sue's Secret Heated Eye Mask</h1>
-            <p>Soothe Dry Eyes with Clinically Tested Moist Heat Therapy</p>
         </div>
     </header>
 
@@ -506,8 +492,7 @@
             <div class="buy-now">
                 <p>Ready to relieve your eyes? Get yours now!</p>
                 <a href="https://goo.su/UMCjK" class="buy-button" target="_blank">Shop Now on Amazon</a>
-                <div class="discount-code">Use Code: <span>ZNSWLOZW</span></div>
-                <button class="copy-button" onclick="copyCode('ZNSWLOZW', this)">Copy</button>
+                <div class="discount-code">Use Code: <span>ZNSWLOZW</span> <button class="copy-button" onclick="copyCode('ZNSWLOZW', this)">Copy</button></div>
             </div>
         </section>
 
@@ -594,8 +579,7 @@
         <h2>Relax & Heal Your Eyes Today</h2>
         <p>Experience the Power of Moist Heat Therapy with Sue’s Secret</p>
         <a href="https://goo.su/UMCjK" class="buy-button" target="_blank">Shop Now on Amazon</a>
-        <div class="discount-code">Use Code: <span>ZNSWLOZW</span></div>
-        <button class="copy-button" onclick="copyCode('ZNSWLOZW', this)">Copy</button>
+        <div class="discount-code">Use Code: <span>ZNSWLOZW</span> <button class="copy-button" onclick="copyCode('ZNSWLOZW', this)">Copy</button></div>
     </footer>
 
     <!-- JavaScript -->
