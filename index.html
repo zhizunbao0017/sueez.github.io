@@ -47,9 +47,41 @@
         .hero {
             position: relative;
             width: 100%;
-            height: 70vh;
             overflow: hidden;
+        }
+
+        .hero.desktop {
+            height: 70vh;
+        }
+
+        .hero.mobile {
+            height: 50vh;
             background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://i.imgur.com/40jYn7q.jpg') center/cover no-repeat;
+        }
+
+        .hero .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero .video-container iframe {
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        .hero .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.imgur.com/40jYn7q.jpg') center/cover no-repeat;
+            z-index: 0;
         }
 
         .hero-content {
@@ -72,14 +104,34 @@
             margin-bottom: 1.5rem;
         }
 
-        .hero-content .buy-button {
-            background-color: #FF6200;
-            color: #fff;
+        .hero-content .play-button, .hero-content .buy-button {
             padding: 12px 30px;
             border-radius: 25px;
             font-size: 1.1rem;
             text-decoration: none;
             transition: background-color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+        }
+
+        .hero-content .play-button {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #007BFF;
+        }
+
+        .hero-content .play-button i {
+            margin-right: 8px;
+        }
+
+        .hero-content .play-button:hover {
+            background-color: #fff;
+        }
+
+        .hero-content .buy-button {
+            background-color: #FF6200;
+            color: #fff;
         }
 
         .hero-content .buy-button:hover {
@@ -283,8 +335,11 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .hero {
-                height: 50vh;
+            .hero.desktop {
+                display: none;
+            }
+            .hero.mobile {
+                display: block;
             }
 
             .hero-content h1 {
@@ -327,6 +382,13 @@
         }
 
         @media (min-width: 769px) {
+            .hero.desktop {
+                display: block;
+            }
+            .hero.mobile {
+                display: none;
+            }
+
             .features-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
@@ -338,8 +400,22 @@
     </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <header class="hero">
+    <!-- Hero Section (Desktop with Video) -->
+    <header class="hero desktop">
+        <div class="video-container">
+            <div class="video-placeholder"></div>
+            <iframe id="vimeo-video" src="https://player.vimeo.com/video/1073849832?controls=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="hero-content">
+            <h1>Sue's Secret Heated Eye Mask</h1>
+            <p>Soothe Dry Eyes with Clinically Tested Moist Heat Therapy</p>
+            <button class="play-button" onclick="startVideoPlayback()"><i class="fas fa-play"></i> Play Video</button>
+            <a href="https://goo.su/UMCjK" class="buy-button" target="_blank">Shop Now on Amazon</a>
+        </div>
+    </header>
+
+    <!-- Hero Section (Mobile with Image) -->
+    <header class="hero mobile">
         <div class="hero-content">
             <h1>Sue's Secret Heated Eye Mask</h1>
             <p>Soothe Dry Eyes with Clinically Tested Moist Heat Therapy</p>
@@ -474,5 +550,25 @@
         <p>Experience the Power of Moist Heat Therapy with Sue’s Secret</p>
         <a href="https://goo.su/UMCjK" class="buy-button" target="_blank">Shop Now on Amazon</a>
     </footer>
+
+    <!-- JavaScript for Video Control -->
+    <script defer>
+        function startVideoPlayback() {
+            const placeholder = document.querySelector('.video-placeholder');
+            const iframe = document.getElementById('vimeo-video');
+            const buttons = document.querySelector('.hero-content');
+
+            placeholder.style.display = 'none';
+            iframe.style.display = 'block';
+            buttons.style.display = 'none';
+        }
+
+        // Show/hide headers based on device
+        document.addEventListener('DOMContentLoaded', () => {
+            const isMobile = window.innerWidth <= 768;
+            document.querySelector('.hero.desktop').style.display = isMobile ? 'none' : 'block';
+            document.querySelector('.hero.mobile').style.display = isMobile ? 'block' : 'none';
+        });
+    </script>
 </body>
 </html>
