@@ -56,7 +56,6 @@
 
         .hero.mobile {
             height: 50vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://i.imgur.com/40jYn7q.jpg') center/cover no-repeat;
         }
 
         .hero .video-container {
@@ -69,6 +68,9 @@
         }
 
         .hero .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             display: none;
@@ -110,19 +112,13 @@
             font-size: 1.1rem;
             text-decoration: none;
             transition: background-color 0.3s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
             margin: 5px;
+            display: inline-block;
         }
 
         .hero-content .play-button {
             background-color: rgba(255, 255, 255, 0.9);
             color: #007BFF;
-        }
-
-        .hero-content .play-button i {
-            margin-right: 8px;
         }
 
         .hero-content .play-button:hover {
@@ -341,41 +337,32 @@
             .hero.mobile {
                 display: block;
             }
-
             .hero-content h1 {
                 font-size: 1.8rem;
             }
-
             .hero-content p {
                 font-size: 1rem;
             }
-
             .hero-content .buy-button {
                 padding: 10px 25px;
                 font-size: 1rem;
             }
-
             .features-grid {
                 grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             }
-
             .therapy {
                 flex-direction: column;
                 text-align: center;
             }
-
             .benefits-grid {
                 grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             }
-
             .comparison table {
                 font-size: 0.9rem;
             }
-
             .footer-cta h2 {
                 font-size: 1.8rem;
             }
-
             .footer-cta p {
                 font-size: 1rem;
             }
@@ -388,11 +375,9 @@
             .hero.mobile {
                 display: none;
             }
-
             .features-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
-
             .benefits-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
@@ -416,6 +401,9 @@
 
     <!-- Hero Section (Mobile with Image) -->
     <header class="hero mobile">
+        <div class="video-container">
+            <div class="video-placeholder"></div>
+        </div>
         <div class="hero-content">
             <h1>Sue's Secret Heated Eye Mask</h1>
             <p>Soothe Dry Eyes with Clinically Tested Moist Heat Therapy</p>
@@ -551,24 +539,25 @@
         <a href="https://goo.su/UMCjK" class="buy-button" target="_blank">Shop Now on Amazon</a>
     </footer>
 
-    <!-- JavaScript for Video Control -->
+    <!-- JavaScript -->
     <script defer>
-        function startVideoPlayback() {
-            const placeholder = document.querySelector('.video-placeholder');
-            const iframe = document.getElementById('vimeo-video');
-            const buttons = document.querySelector('.hero-content');
-
-            placeholder.style.display = 'none';
-            iframe.style.display = 'block';
-            buttons.style.display = 'none';
-        }
-
         // Show/hide headers based on device
         document.addEventListener('DOMContentLoaded', () => {
             const isMobile = window.innerWidth <= 768;
             document.querySelector('.hero.desktop').style.display = isMobile ? 'none' : 'block';
             document.querySelector('.hero.mobile').style.display = isMobile ? 'block' : 'none';
         });
+
+        // Start Vimeo Video Playback (Desktop)
+        function startVideoPlayback() {
+            const placeholder = document.querySelector('.hero.desktop .video-placeholder');
+            const iframe = document.getElementById('vimeo-video');
+            const playButton = document.querySelector('.hero.desktop .play-button');
+            
+            placeholder.style.display = 'none';
+            iframe.style.display = 'block';
+            playButton.style.display = 'none';
+        }
     </script>
 </body>
 </html>
