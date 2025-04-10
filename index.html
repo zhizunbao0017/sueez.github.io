@@ -83,6 +83,7 @@
             width: 100%;
             height: 100%;
             background: url('https://i.imgur.com/40jYn7q.jpg') center/cover no-repeat;
+            object-fit: cover;
             z-index: 0;
         }
 
@@ -97,41 +98,30 @@
         }
 
         .hero-content h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .hero-content p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 1.5rem;
-        }
-
-        .hero-content .play-button, .hero-content .buy-button {
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-size: 1.1rem;
-            text-decoration: none;
-            transition: background-color 0.3s;
-            margin: 5px;
-            display: inline-block;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         .hero-content .play-button {
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
             background-color: rgba(255, 255, 255, 0.9);
             color: #007BFF;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
 
         .hero-content .play-button:hover {
             background-color: #fff;
-        }
-
-        .hero-content .buy-button {
-            background-color: #FF6200;
-            color: #fff;
-        }
-
-        .hero-content .buy-button:hover {
-            background-color: #E55B00;
         }
 
         /* Features Section */
@@ -201,10 +191,26 @@
             font-size: 1.1rem;
             text-decoration: none;
             transition: background-color 0.3s;
+            display: inline-block;
+            margin-right: 10px;
         }
 
         .buy-now .buy-button:hover {
             background-color: #E55B00;
+        }
+
+        .buy-now .discount-code {
+            font-size: 1rem;
+            color: #333;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .buy-now .discount-code span {
+            background-color: #FFEBCC;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
         }
 
         /* Therapy Section */
@@ -323,10 +329,25 @@
             font-size: 1.1rem;
             text-decoration: none;
             transition: background-color 0.3s;
+            display: inline-block;
+            margin-right: 10px;
         }
 
         .footer-cta .buy-button:hover {
             background-color: #E55B00;
+        }
+
+        .footer-cta .discount-code {
+            font-size: 1rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .footer-cta .discount-code span {
+            background-color: rgba(255, 235, 204, 0.8);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
         }
 
         /* Responsive Design */
@@ -338,12 +359,12 @@
                 display: block;
             }
             .hero-content h1 {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
             .hero-content p {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
-            .hero-content .buy-button {
+            .hero-content .play-button {
                 padding: 10px 25px;
                 font-size: 1rem;
             }
@@ -395,7 +416,6 @@
             <h1>Sue's Secret Heated Eye Mask</h1>
             <p>Soothe Dry Eyes with Clinically Tested Moist Heat Therapy</p>
             <button class="play-button" onclick="startVideoPlayback()"><i class="fas fa-play"></i> Play Video</button>
-            <a href="https://goo.su/UMCjK" class="buy-button" target="_blank">Shop Now on Amazon</a>
         </div>
     </header>
 
@@ -407,7 +427,6 @@
         <div class="hero-content">
             <h1>Sue's Secret Heated Eye Mask</h1>
             <p>Soothe Dry Eyes with Clinically Tested Moist Heat Therapy</p>
-            <a href="https://goo.su/UMCjK" class="buy-button" target="_blank">Shop Now on Amazon</a>
         </div>
     </header>
 
@@ -451,6 +470,7 @@
             <div class="buy-now">
                 <p>Ready to relieve your eyes? Get yours now!</p>
                 <a href="https://goo.su/UMCjK" class="buy-button" target="_blank">Shop Now on Amazon</a>
+                <div class="discount-code">Use Code: <span>ZNSWLOZW</span></div>
             </div>
         </section>
 
@@ -537,6 +557,7 @@
         <h2>Relax & Heal Your Eyes Today</h2>
         <p>Experience the Power of Moist Heat Therapy with Sue’s Secret</p>
         <a href="https://goo.su/UMCjK" class="buy-button" target="_blank">Shop Now on Amazon</a>
+        <div class="discount-code">Use Code: <span>ZNSWLOZW</span></div>
     </footer>
 
     <!-- JavaScript -->
