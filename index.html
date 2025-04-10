@@ -44,7 +44,7 @@
             loading: lazy;
         }
 
-        /* Header Section (Hero Banner with Video) */
+        /* Header Section (Hero Banner with Video or Image) */
         .hero {
             position: relative;
             width: 100%;
@@ -75,7 +75,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Changed to contain to avoid cropping */
+            object-fit: contain; /* Ensure video is fully visible */
             object-position: center;
         }
 
@@ -91,52 +91,12 @@
             z-index: 0;
         }
 
-        /* Loading Spinner and Error Message */
-        .loading-spinner, .error-message {
-            color: #ffffff;
+        /* Error Message */
+        .error-message {
+            color: #ff4444;
             font-size: 1rem;
             text-align: center;
             padding-top: 50%;
-        }
-
-        .error-message {
-            color: #ff4444;
-        }
-
-        /* Buttons Container */
-        .hero .buttons-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 2; /* Ensure buttons are above video */
-        }
-
-        /* Play Icon Button */
-        .play-icon-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(255, 255, 255, 0.8);
-            color: #1e90ff;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .play-icon-button i {
-            margin-right: 5px;
-            font-size: 1.2rem;
-        }
-
-        .play-icon-button:hover {
-            background-color: rgba(255, 255, 255, 1);
         }
 
         /* Features Section */
@@ -337,15 +297,6 @@
                 font-size: 1rem;
             }
 
-            .play-icon-button {
-                font-size: 0.9rem;
-                padding: 6px 12px;
-            }
-
-            .play-icon-button i {
-                font-size: 1rem;
-            }
-
             .features-grid {
                 grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
                 gap: 15px;
@@ -426,20 +377,21 @@
     </style>
 </head>
 <body>
-    <!-- Header Section with Video Background -->
+    <!-- Header Section with Video Background (Desktop) -->
     <header class="hero desktop">
         <!-- Video for Desktop -->
         <div class="video-container desktop-video">
             <div class="video-placeholder desktop-video" style="background-image: url('https://i.imgur.com/40jYn7q.jpg');"></div>
-            <video id="hero-video" loop autoplay muted playsinline preload="auto">
+            <video id="hero-video" loop playsinline preload="auto">
                 <source src="https://raw.githubusercontent.com/zhizunbao0017/sueez.github.io/main/广告视频素材.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
     </header>
 
+    <!-- Header Section with Static Image (Mobile) -->
     <header class="hero mobile">
-        <!-- Placeholder Image for Mobile -->
+        <!-- Static Image for Mobile -->
         <div class="video-container mobile-video">
             <div class="video-placeholder mobile-video" style="background-image: url('https://i.imgur.com/40jYn7q.jpg');"></div>
         </div>
@@ -447,10 +399,6 @@
         <div class="seo-text" style="display: none;">
             <h1>Sue's Secret Heated Eye Mask – Soothe Dry Eyes with Moist Heat Therapy</h1>
             <p>Relieve Dry Eyes, Styes, MGD & More – Clinically Tested for Ultimate Comfort</p>
-        </div>
-        <!-- Play button with text for mobile -->
-        <div class="buttons-container mobile-video">
-            <button class="play-icon-button" onclick="startVideoPlayback()"><i class="fas fa-play"></i> Play Video</button>
         </div>
     </header>
 
@@ -597,48 +545,21 @@
             document.querySelector('.hero.mobile').style.display = isMobile ? 'block' : 'none';
         });
 
-        // Start Video Playback (Mobile)
-        function startVideoPlayback() {
-            const videoContainer = document.querySelector('.video-container.mobile-video');
-            const placeholder = document.querySelector('.video-placeholder.mobile-video');
-            
-            // Add loading spinner
-            videoContainer.innerHTML = '<div class="loading-spinner">Loading...</div>';
-            placeholder.style.display = 'none';
-
-            // Load local video
-            videoContainer.innerHTML = '<video id="hero-video-mobile" loop muted playsinline preload="auto"><source src="https://raw.githubusercontent.com/zhizunbao0017/sueez.github.io/main/广告视频素材.mp4" type="video/mp4">Your browser does not support the video tag.</video>';
-            
-            // Play video
-            const video = document.getElementById('hero-video-mobile');
-            video.addEventListener('loadeddata', () => {
-                console.log('Video loaded on mobile');
-                video.play().then(() => {
-                    console.log('Video is playing on mobile');
-                    // Hide all buttons
-                    document.querySelector('.buttons-container').style.display = 'none';
-                }).catch(error => {
-                    console.error('Error playing video on mobile:', error.message);
-                    videoContainer.innerHTML = '<div class="error-message">Failed to play video: ' + error.message + '. Please try again.</div>';
-                    // Hide buttons even if playback fails
-                    document.querySelector('.buttons-container').style.display = 'none';
-                });
-            });
-            video.addEventListener('error', (error) => {
-                console.error('Error loading video on mobile:', error.message);
-                videoContainer.innerHTML = '<div class="error-message">Failed to load video: ' + error.message + '. Please refresh the page.</div>';
-                // Hide buttons even if loading fails
-                document.querySelector('.buttons-container').style.display = 'none';
-            });
-        }
-
-        // Hide desktop placeholder when video loads
+        // Desktop video handling
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('hero-video');
             if (video) {
                 video.addEventListener('loadeddata', () => {
                     console.log('Video loaded on desktop');
+                    // Since autoplay with sound is blocked, we can prompt user to play
                     document.querySelector('.video-placeholder.desktop-video').style.display = 'none';
+                    video.play().then(() => {
+                        console.log('Video is playing on desktop with sound');
+                    }).catch(error => {
+                        console.error('Error playing video on desktop:', error.message);
+                        // Display error but keep placeholder hidden
+                        document.querySelector('.video-container.desktop-video').innerHTML = '<div class="error-message">Failed to play video: ' + error.message + '. Please refresh the page.</div>';
+                    });
                 });
                 video.addEventListener('error', (error) => {
                     console.error('Error loading video on desktop:', error.message);
