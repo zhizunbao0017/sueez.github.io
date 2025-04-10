@@ -48,9 +48,16 @@
         .hero {
             position: relative;
             width: 100%;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
             height: 0;
             overflow: hidden;
+        }
+
+        .hero.desktop {
+            padding-top: 56.25%; /* 16:9 Aspect Ratio for desktop */
+        }
+
+        .hero.mobile {
+            padding-top: 177.78%; /* 9:16 Aspect Ratio for mobile */
         }
 
         .hero .video-container {
@@ -68,7 +75,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain; /* Changed to contain to avoid cropping */
+            object-position: center;
         }
 
         .hero .video-placeholder {
@@ -329,10 +337,6 @@
                 font-size: 1rem;
             }
 
-            .hero {
-                padding-top: 177.78%; /* 9:16 Aspect Ratio for mobile */
-            }
-
             .play-icon-button {
                 font-size: 0.9rem;
                 padding: 6px 12px;
@@ -423,7 +427,7 @@
 </head>
 <body>
     <!-- Header Section with Video Background -->
-    <header class="hero">
+    <header class="hero desktop">
         <!-- Video for Desktop -->
         <div class="video-container desktop-video">
             <div class="video-placeholder desktop-video" style="background-image: url('https://i.imgur.com/40jYn7q.jpg');"></div>
@@ -432,6 +436,9 @@
                 Your browser does not support the video tag.
             </video>
         </div>
+    </header>
+
+    <header class="hero mobile">
         <!-- Placeholder Image for Mobile -->
         <div class="video-container mobile-video">
             <div class="video-placeholder mobile-video" style="background-image: url('https://i.imgur.com/40jYn7q.jpg');"></div>
@@ -581,6 +588,13 @@
                     behavior: 'smooth'
                 });
             });
+        });
+
+        // Show/hide headers based on device
+        document.addEventListener('DOMContentLoaded', () => {
+            const isMobile = window.innerWidth <= 768;
+            document.querySelector('.hero.desktop').style.display = isMobile ? 'none' : 'block';
+            document.querySelector('.hero.mobile').style.display = isMobile ? 'block' : 'none';
         });
 
         // Start Video Playback (Mobile)
